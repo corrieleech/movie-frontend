@@ -7,23 +7,12 @@ export default {
       user_id: 1,
       movies: [],
       newMovieParams: {
-        title: "",
-        year: null,
-        plot: "",
-        director: "",
         english: true,
       },
       movieToUpdate: "",
-      updateMovieParams: {
-        title: "",
-        year: null,
-        plot: "",
-        director: "",
-        english: true,
-      },
+      updateMovieParams: {},
       movieToDelete: "",
       activeMovie: "",
-      moreInfo: false,
     };
   },
   created: function () {
@@ -31,44 +20,31 @@ export default {
   },
   methods: {
     moviesIndex: function () {
-      axios.get("http://localhost:3000/movies").then((response) => {
+      axios.get("/movies").then((response) => {
         console.log(response.data);
         this.movies = response.data;
       });
     },
     moviesCreate: function () {
       axios
-        .post("http://localhost:3000/movies", this.newMovieParams)
+        .post("/movies", this.newMovieParams)
         .then((response) => {
           console.log(response.data);
           this.movies.push(response.data);
-          (this.newMovieParams.title = ""),
-            (this.newMovieParams.year = null),
-            (this.newMovieParams.plot = ""),
-            (this.newMovieParams.director = "");
+          this.newMovieParams = {};
         })
         .catch((error) => {
           console.log(error.response);
         });
     },
-    moviesUpdate: function () {
-      var movie = this.movies.find((movie) => movie.title == this.movieToUpdate);
-      console.log(movie);
-      var params = {};
-      if (this.updateMovieParams.title) {
-        params.title = this.updateMovieParams.title;
-      }
-      if (this.updateMovieParams.year) {
-        params.year = this.updateMovieParams.year;
-      }
-      if (this.updateMovieParams.director) {
-        params.director = this.updateMovieParams.director;
-      }
-      if (this.updateMovieParams.plot) {
-        params.plot = this.updateMovieParams.plot;
-      }
+    moviesShow: function (movie) {
+      this.activeMovie = movie;
+      this.updateMovieParams = movie;
+      document.querySelector("#movie-details").showModal();
+    },
+    moviesUpdate: function (movie) {
       axios
-        .patch(`http://localhost:3000/movies/${movie.id}`, params)
+        .patch(`/movies/${movie.id}`, movie)
         .then((response) => {
           console.log(response.data);
         })
@@ -77,18 +53,17 @@ export default {
         });
     },
     moviesDestroy: function (movie) {
+      var index = this.movies.indexOf(movie);
+      console.log(index);
       axios
-        .delete(`http://localhost:3000/movies/${movie.id}`)
+        .delete(`/movies/${movie.id}`)
         .then((response) => {
           console.log(response.data);
+          this.movies.splice(index, 1);
         })
         .catch((error) => {
           console.log(error.response);
         });
-    },
-    showMore: function (movie) {
-      this.activeMovie = movie;
-      this.moreInfo = !this.moreInfo;
     },
   },
 };
@@ -105,16 +80,9 @@ export default {
     <div v-for="movie in movies" v-bind:key="movie.id">
       <h3>
         {{ movie.title }} ({{ movie.year }})
-        <button v-on:click="showMore(movie)">Additional Info</button>
+        <br />
+        <button v-on:click="moviesShow(movie)">Additional Info</button>
       </h3>
-      <p v-if="activeMovie == movie && moreInfo">
-        Director: {{ movie.director }}
-        <br />
-        <i>Summary:</i>
-        {{ movie.plot }}
-        <br />
-      </p>
-      <button v-if="user_id == 1" v-on:click="moviesDestroy(movie)">Remove {{ movie.title }}</button>
     </div>
     <div>
       <h2>Not Seeing What You Like?</h2>
@@ -138,18 +106,12 @@ export default {
       <button v-on:click="moviesCreate()">Add Movie</button>
       <br />
     </div>
-    <div>
-      <h2>Did We Get it Wrong?</h2>
-      <p>
-        Enter the title of the movie you'd like to update:
-        <input type="text" v-model="movieToUpdate" />
-      </p>
-      <div>
-        <p>Enter the updated information (note: fields left blank will not be updated):</p>
-        <p>
+    <dialog id="movie-details">
+      <form method="dialog">
+        <h2>
           Title:
           <input type="text" v-model="updateMovieParams.title" />
-        </p>
+        </h2>
         <p>
           Year:
           <input type="text" v-model="updateMovieParams.year" />
@@ -158,13 +120,14 @@ export default {
           Director:
           <input type="text" v-model="updateMovieParams.director" />
         </p>
-        <p>
-          Plot:
-          <input type="text" v-model="updateMovieParams.plot" />
-        </p>
-        <button v-on:click="moviesUpdate()">Update Movie Info</button>
+        Plot:
+        <textarea rows="4" cols="50" v-model="updateMovieParams.plot"></textarea>
         <br />
-      </div>
-    </div>
+        <br />
+        <button v-on:click="moviesUpdate(updateMovieParams)">Update</button>
+        <button>Close</button>
+        <button v-if="user_id == 1" v-on:click="moviesDestroy(activeMovie)">Remove</button>
+      </form>
+    </dialog>
   </div>
 </template>
