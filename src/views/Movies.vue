@@ -4,7 +4,6 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      user_id: 1,
       movies: [],
       newMovieParams: {
         english: true,
@@ -70,10 +69,6 @@ export default {
 </script>
 
 <template>
-  <p>
-    User Id: (1 = Admin)
-    <input type="text" v-model="user_id" />
-  </p>
   <h1>Corz Movie Database</h1>
   <p>All the movies you will ever need to know.</p>
   <div class="home" align="left">
@@ -83,28 +78,6 @@ export default {
         <br />
         <button v-on:click="moviesShow(movie)">Additional Info</button>
       </h3>
-    </div>
-    <div>
-      <h2>Not Seeing What You Like?</h2>
-      <p>Add a movie to the database by entering the following details:</p>
-      <p>
-        Title:
-        <input type="text" v-model="newMovieParams.title" />
-      </p>
-      <p>
-        Year:
-        <input type="text" v-model="newMovieParams.year" />
-      </p>
-      <p>
-        Director:
-        <input type="text" v-model="newMovieParams.director" />
-      </p>
-      <p>
-        Plot:
-        <input type="text" v-model="newMovieParams.plot" />
-      </p>
-      <button v-on:click="moviesCreate()">Add Movie</button>
-      <br />
     </div>
     <dialog id="movie-details">
       <form method="dialog">
@@ -126,7 +99,7 @@ export default {
         <br />
         <button v-on:click="moviesUpdate(updateMovieParams)">Update</button>
         <button>Close</button>
-        <button v-if="user_id == 1" v-on:click="moviesDestroy(activeMovie)">Remove</button>
+        <button v-on:click="moviesDestroy(activeMovie)">Remove</button>
       </form>
     </dialog>
   </div>
