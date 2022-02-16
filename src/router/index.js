@@ -1,16 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Movies from "../views/Movies.vue";
 import Signup from "../views/Signup.vue";
 import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
+import MoviesIndex from "../views/MoviesIndex.vue";
 import MoviesNew from "../views/MoviesNew.vue";
+import MoviesShow from "../views/MoviesShow.vue";
+import MoviesEdit from "../views/MoviesEdit.vue";
 
 const routes = [
-  {
-    path: "/movies",
-    name: "Movies",
-    component: Movies,
-  },
   {
     path: "/signup",
     name: "Signup",
@@ -27,9 +24,24 @@ const routes = [
     component: Logout,
   },
   {
+    path: "/movies",
+    name: "MoviesIndex",
+    component: MoviesIndex,
+  },
+  {
     path: "/movies/new",
     name: "MoviesNew",
     component: MoviesNew,
+  },
+  {
+    path: "/movies/:id",
+    name: "MoviesShow",
+    component: MoviesShow,
+  },
+  {
+    path: "/movies/:id/edit",
+    name: "MoviesEdit",
+    component: MoviesEdit,
   },
 ];
 

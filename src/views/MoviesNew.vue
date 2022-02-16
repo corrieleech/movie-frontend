@@ -7,6 +7,7 @@ export default {
       newMovieParams: {
         english: true,
       },
+      errors: [],
     };
   },
   methods: {
@@ -18,7 +19,7 @@ export default {
           this.$router.push("/movies");
         })
         .catch((error) => {
-          console.log(error.response);
+          this.errors = error.response.data;
         });
     },
   },
@@ -29,6 +30,9 @@ export default {
   <h1>Not Seeing What You Like?</h1>
   <div class="movies-new">
     <p>Add a movie to the database by entering the following details:</p>
+    <ul>
+      <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+    </ul>
     <p>
       Title:
       <input type="text" v-model="newMovieParams.title" />
