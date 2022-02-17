@@ -5,6 +5,7 @@ export default {
   data: function () {
     return {
       newMovieParams: {
+        plot: "",
         english: true,
       },
       errors: [],
@@ -48,6 +49,10 @@ export default {
     <p>
       Plot:
       <input type="text" v-model="newMovieParams.plot" />
+      <br />
+      <small v-if="newMovieParams.plot.length > 200">
+        <i>{{ 250 - newMovieParams.plot.length }} characters remaining</i>
+      </small>
     </p>
     <button v-on:click="moviesCreate()">Add Movie</button>
     <br />
