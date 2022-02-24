@@ -22,6 +22,9 @@ export default {
         this.movies = response.data;
       });
     },
+    activateForm: function () {
+      this.$router.push("/movies/new");
+    },
   },
   computed: {
     searchTitle() {
@@ -35,9 +38,15 @@ export default {
 
 <template>
   <h1>Corz Movie Database</h1>
-  <p><span data-inline-tweet>All the movies you will ever need to know.</span></p>
-  <h3>Search by Title</h3>
-  <input type="text" v-model="titleSearch" list="movieTitles" />
+  <p><span>All the movies you will ever need to know.</span></p>
+  <h2>
+    Search by Title
+    <input type="text" v-model="titleSearch" list="movieTitles" />
+  </h2>
+  <h2>
+    Not Seeing What You Like?
+    <button v-on:click="activateForm()">Add A Movie</button>
+  </h2>
   <datalist id="movieTitles">
     <option v-for="movie in movies" v-bind:key="movie.id">{{ movie.title }}</option>
   </datalist>
@@ -54,7 +63,6 @@ export default {
       </div>
     </transition-group>
   </div>
-  <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }"><p>Test text</p></div>
 </template>
 
 <style></style>

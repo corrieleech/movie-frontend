@@ -5,18 +5,22 @@ export default {
   data: function () {
     return {
       movie: {},
+      editMovieParams: {
+        plot: "",
+      },
       errors: [],
     };
   },
   created: function () {
     axios.get(`/movies/${this.$route.params.id}`).then((response) => {
       this.movie = response.data.movie;
+      this.editMovieParams = response.data.movie;
     });
   },
   methods: {
     moviesUpdate: function () {
       axios
-        .patch(`/movies/${this.movie.id}`, this.movie)
+        .patch(`/movies/${this.movie.id}`, this.editMovieParams)
         .then((response) => {
           console.log("Movies Update:", response.data);
           this.$router.push(`/movies/${this.movie.id}`);
@@ -37,29 +41,47 @@ export default {
 
 <template>
   <div class="movies-edit">
-    <div>
-      <h3>Edit: {{ movie.title }}</h3>
-      <ul>
-        <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-      </ul>
-      <p>
-        Title:
-        <input type="text" v-model="movie.title" />
-      </p>
-      <p>
-        Year:
-        <input type="text" v-model="movie.year" />
-      </p>
-      <p>
-        Director:
-        <input type="text" v-model="movie.director" />
-      </p>
-      <p>
-        Plot:
-        <input type="text" v-model="movie.plot" />
-      </p>
-      <button v-on:click="moviesUpdate()">Update Movie</button>
-      <button v-on:click="moviesDestroy()">Delete Movie</button>
-    </div>
+    <form v-on:submit.prevent="moviesUpdate()">
+      <div>
+        <h3>Edit: {{ editMovieParams.title }}</h3>
+        <ul>
+          <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+        </ul>
+        <p>
+          <label for="title">Title:</label>
+          <input type="text" v-model="editMovieParams.title" placeholder="(e.g., Titanic)" />
+        </p>
+        <p>
+          <label for="year">Year:</label>
+          <input type="text" v-model="editMovieParams.year" placeholder="(e.g., 1997)" />
+        </p>
+        <p>
+          <label for="Director">Director:</label>
+          <input type="text" v-model="editMovieParams.director" placeholder="(e.g., James Cameron)" />
+        </p>
+        <p>
+          Plot:
+          <textarea
+            v-model="editMovieParams.plot"
+            placeholder="(e.g., Two people meet on a doomed boat. Boy lets go.)"
+            rows="2"
+            cols="50"
+          ></textarea>
+          <br />
+          <small v-if="editMovieParams.plot.length > 200">
+            <i>{{ 250 - editMovieParams.plot.length }} characters remaining</i>
+          </small>
+        </p>
+        <p>
+          Language:
+          <label for="english">English</label>
+          <input type="radio" id="english" v-model="editMovieParams.english" name="english" value="true" />
+          <label for="notenglish">Other</label>
+          <input type="radio" id="notenglish" v-model="editMovieParams.english" name="english" value="false" />
+        </p>
+        <input type="submit" value="Update" />
+        <button v-on:click="moviesDestroy()">Delete Movie</button>
+      </div>
+    </form>
   </div>
 </template>
