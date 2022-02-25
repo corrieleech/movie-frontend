@@ -15,44 +15,42 @@ export default {
 </script>
 
 <template>
-  <div id="nav">
-    <router-link to="/movies">Movies</router-link>
-    |
-    <router-link to="/actors">Actors</router-link>
-    |
-    <span v-if="isLoggedIn">
-      <router-link to="/logout">Log Out</router-link>
-      |
-      <router-link to="/movies/new">Add A Movie</router-link>
-    </span>
-    <span v-else>
-      <router-link to="/signup">Sign Up</router-link>
-      |
-      <router-link to="/login">Log In</router-link>
-    </span>
-  </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img
+          src="https://i.pinimg.com/736x/aa/f7/05/aaf705e06726ce3881288ae4be3ac5fe.jpg"
+          alt=""
+          width="30"
+          height="24"
+          class="d-inline-block align-text-top"
+        />
+        Movies Database
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <router-link to="/movies" class="nav-link active">Movies</router-link>
+          <router-link to="/actors" class="nav-link">Actors</router-link>
+          <router-link to="/signup" class="nav-link" v-if="!isLoggedIn">Sign Up</router-link>
+          <router-link to="/login" class="nav-link" v-if="!isLoggedIn">Sign In</router-link>
+          <router-link to="/logout" class="nav-link" v-if="isLoggedIn">Log Out</router-link>
+          <router-link to="/movies/new" class="nav-link" v-if="isLoggedIn">Add A Movie</router-link>
+        </div>
+      </div>
+    </div>
+  </nav>
   <router-view />
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<style></style>

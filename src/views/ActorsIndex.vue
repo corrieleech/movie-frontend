@@ -22,32 +22,24 @@ export default {
 </script>
 
 <template>
-  <h1>Corz Actor Database</h1>
-  <p>All the actors you will ever need to know.</p>
-  <div class="actors-index">
-    <table>
-      <tr v-for="actor in actors" v-bind:key="actor.id">
-        <td><img :src="`${actor.image}`" /></td>
-        <td>
-          <h3>{{ actor.first_name }} {{ actor.last_name }}</h3>
-          <p>Gender: {{ actor.gender }} | Age: {{ actor.age }}</p>
-          <p>Known for: {{ actor.known_for }}</p>
-        </td>
-      </tr>
-    </table>
-    <!-- <div v-for="actor in actors" v-bind:key="actor.id">
-      <h3>{{ actor.first_name }} {{ actor.last_name }}</h3>
-      <p>Gender: {{ actor.gender }} | Age: {{ actor.age }}</p>
-      <p>Known for: {{ actor.known_for }}</p>
-    </div> -->
+  <div class="container">
+    <h1>Corz Actor Database</h1>
+    <p>All the actors you will ever need to know.</p>
+    <div class="actors-index">
+      <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="col" v-for="actor in actors" v-bind:key="actor.id">
+          <div class="card h-100">
+            <img :src="`${actor.image}`" class="card-img-top" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{ actor.first_name }} {{ actor.last_name }}</h5>
+              <p class="card-text">Gender: {{ actor.gender }} | Age: {{ actor.age }}</p>
+              <p>Known for: {{ actor.known_for }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<style>
-img {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
-  width: 150px;
-}
-</style>
+<style></style>

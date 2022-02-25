@@ -70,7 +70,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 img {
   border: 1px solid #ddd;
   border-radius: 4px;
