@@ -40,17 +40,62 @@ export default {
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <router-link to="/movies" class="nav-link active">Movies</router-link>
-          <router-link to="/actors" class="nav-link">Actors</router-link>
           <router-link to="/signup" class="nav-link" v-if="!isLoggedIn">Sign Up</router-link>
           <router-link to="/login" class="nav-link" v-if="!isLoggedIn">Sign In</router-link>
           <router-link to="/logout" class="nav-link" v-if="isLoggedIn">Log Out</router-link>
-          <router-link to="/movies/new" class="nav-link" v-if="isLoggedIn">Add A Movie</router-link>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Movies
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><router-link to="/movies" class="nav-link active">Movies</router-link></li>
+                <li><router-link to="/movies/new" class="nav-link" v-if="isLoggedIn">Add A Movie</router-link></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Actors
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><router-link to="/actors" class="nav-link">Actors</router-link></li>
+                <li><router-link to="/actors/new" class="nav-link" v-if="isLoggedIn">Add An Actor</router-link></li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </nav>
+  <div class="jumbotron jumbotron-fluid p-5">
+    <h1 class="display-4">Whence Upon A Time</h1>
+    <p class="lead">Artisanally crafted Hollywood content.</p>
+  </div>
   <router-view />
 </template>
 
-<style></style>
+<style>
+.jumbotron {
+  background-image: url("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/hbz-042517-oldhollywood-1493167401.jpg");
+  background-size: cover;
+  color: azure;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+}
+</style>
